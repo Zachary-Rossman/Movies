@@ -15,8 +15,20 @@ let userInput = document.querySelector(`#user-input`);
 
 // Functions
 function init () {
-    // Testing API to make sure fetch is working
-    let requestUrl = 'http://www.omdbapi.com/?apikey=ce01743c&s=${userInput}';
+
+}
+
+// Function will fire when form is submitted
+let handleFormSubmit = (Event) => {
+    Event.preventDefault();
+
+    // Set if statements for user requirements
+    if (userInput.value === "") {
+        // Display error for user to type something
+        return;
+    }
+    // Pulls API and inserts search for name
+    let requestUrl = `http://www.omdbapi.com/?apikey=ce01743c&s=${userInput.value}`;
     
     fetch(requestUrl)
     .then(function (response) {
@@ -29,3 +41,4 @@ function init () {
 
 // Function Calls & Event Listeners
 init();
+searchForm.addEventListener("submit", handleFormSubmit);
