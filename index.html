@@ -6,19 +6,26 @@
     <link rel="stylesheet" href="./Assets/CSS/normalize.css">
     <!-- <link rel="stylesheet" href="./Assets/CSS/style.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Moves</title>    
+    <title>Movies</title>    
 </head>
-<body>
+<body id="body">
     <!-- STYLING FOR TESTING ONLY FOR NOW! -->
 
     <!-- Title Bar On site -->
     <h1 class="bg-amber-500 font-serif">Movies</h1>
 
     <!-- Box/Card for user choices and inputs to search. Also has search button -->
-     <form id="search-form">
+     <form id="search-form" class="flex flex-col">
+        <label for="type">Search for a movie or a series</label>
+        <select name="type" id="dropdown-choice" class="border">
+            <option value="movie">Movies</option>
+            <option value="series">Series</option>
+        </select>
         <input id="user-input" class="bg-gray-200 text-black"  type="search" placeholder="Type movie name here">
         <button class="bg-gray-400">Search</button>
      </form>
+
+     <div id="display-div"></div>
 
     <!-- Footer for source of data and links to other pages as necessary -->
 

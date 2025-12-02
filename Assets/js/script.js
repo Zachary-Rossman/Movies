@@ -8,6 +8,8 @@
     // This will make the site more interactive for user
 
 //Global Variables
+let displayDiv = document.querySelector(`#display-div`);
+let dropdownChoice = document.querySelector(`#dropdown-choice`);
 let searchBtn = document.querySelector(`#search-button`)
 let searchForm = document.querySelector(`#search-form`);
 let userInput = document.querySelector(`#user-input`);
@@ -15,30 +17,69 @@ let userInput = document.querySelector(`#user-input`);
 
 // Functions
 function init () {
-
+    searchForm.addEventListener("submit", handleFormSubmit);
 }
 
 // Function will fire when form is submitted
 let handleFormSubmit = (Event) => {
     Event.preventDefault();
 
-    // Set if statements for user requirements
+    // modify link based on choice in box
     if (userInput.value === "") {
-        // Display error for user to type something
+        // Display error message for user to type in something
+        let searchError = document.createElement(`h2`);
+        searchError.textContent = (`ERROR! Please enter a name of a movie or series to search for and retry`)
+        searchError.classList.add(`text-red-950`);
+        displayDiv.appendChild(searchError);
         return;
     }
-    // Pulls API and inserts search for name
-    let requestUrl = `http://www.omdbapi.com/?apikey=ce01743c&s=${userInput.value}`;
-    
-    fetch(requestUrl)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data);
-    });
+    else if (dropdownChoice.value === "movie") {
+        // Fetch link with the parameter "type=movies"
+        let requestUrl = `http://www.omdbapi.com/?apikey=ce01743c&type=${dropdownChoice.value}&s=${userInput.value}`;
+        
+        fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            // Checks for errors in search results
+            if (data.Response === "False") {
+                let searchError = document.createElement(`h2`);
+                searchError.textContent = (`ERROR! Please type another name and try again`);
+                searchError.classList.add(`text-red-950`);
+                displayDiv.appendChild(searchError);
+                return;
+            } else if (data.Response === "True") {
+                // Diplay user's results with name of film, year of release, image of the poster, and display page numbers based on results
+                // Clear screen of previous results or errors
+                // Loop through data to retrieve details to display on screen
+                console.log(data);
+            }
+        })
+    } else if (dropdownChoice.value === "series") {
+        // Fetch link with the parameter "type=movies"
+        let requestUrl = `http://www.omdbapi.com/?apikey=ce01743c&type=${dropdownChoice.value}&s=${userInput.value}`;
+        
+        fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (data.Response === "False") {
+                let searchError = document.createElement(`h2`);
+                searchError.textContent = (`ERROR! Please type another name and try again`);
+                searchError.classList.add(`text-red-950`);
+                displayDiv.appendChild(searchError);
+                return;
+            } else if (data.Response === "True") {
+                // Diplay user's results with name of film, year of release, image of the poster, and display page numbers based on results
+                // Clear screen of previous results or errors
+                // Loop through data to retrieve details to display on screen
+                console.log(data);
+            }
+        });
+    }
 }
 
 // Function Calls & Event Listeners
 init();
-searchForm.addEventListener("submit", handleFormSubmit);
