@@ -32,8 +32,7 @@ let handleFormSubmit = (Event) => {
         searchError.classList.add(`text-red-950`);
         displayDiv.appendChild(searchError);
         return;
-    }
-    else if (dropdownChoice.value === "movie") {
+    } else if (dropdownChoice.value === "movie") {
         // Fetch link with the parameter "type=movies"
         let requestUrl = `http://www.omdbapi.com/?apikey=ce01743c&type=${dropdownChoice.value}&s=${userInput.value}`;
         
@@ -50,10 +49,32 @@ let handleFormSubmit = (Event) => {
                 displayDiv.appendChild(searchError);
                 return;
             } else if (data.Response === "True") {
-                // Diplay user's results with name of film, year of release, image of the poster, and display page numbers based on results
-                // Clear screen of previous results or errors
-                // Loop through data to retrieve details to display on screen
-                console.log(data);
+                // Define search results
+                let searchResults = data.Search;
+
+                // Loop through results
+                for(let i=0; i < searchResults.length; i++) {
+                    // Define results criteria based on data from API
+                    let movieTitle = searchResults[i].Title;
+                    let year = searchResults[i].Year;
+                    let poster = searchResults[i].Poster;
+
+                    // Create DOM elements 
+                    let movieCard = document.createElement(`div`);
+                    let moviePoster = document.createElement(`img`);
+
+                    // Set HTML 
+                    movieCard.innerHTML = 
+                    `<h2>${movieTitle}</h2>
+                    <h4>Year of Release: ${year}</h4>`
+
+                    // Set image attribute for source on IMG tag for poster
+                    moviePoster.setAttribute("src", poster);
+
+                    // Append name, year of release, and poster to displayDiv
+                    displayDiv.appendChild(movieCard);
+                    displayDiv.appendChild(moviePoster);
+                }
             }
         })
     } else if (dropdownChoice.value === "series") {
@@ -72,10 +93,32 @@ let handleFormSubmit = (Event) => {
                 displayDiv.appendChild(searchError);
                 return;
             } else if (data.Response === "True") {
-                // Diplay user's results with name of film, year of release, image of the poster, and display page numbers based on results
-                // Clear screen of previous results or errors
-                // Loop through data to retrieve details to display on screen
-                console.log(data);
+                // Define search results
+                let searchResults = data.Search;
+
+                // Loop through results
+                for(let i=0; i < searchResults.length; i++) {
+                    // Define results criteria based on data from API
+                    let seriesTitle = searchResults[i].Title;
+                    let year = searchResults[i].Year;
+                    let poster = searchResults[i].Poster;
+
+                    // Create DOM elements
+                    let seriesCard = document.createElement(`div`);
+                    let seriesPoster = document.createElement(`img`);
+
+                    // Set HTML
+                    seriesCard.innerHTML = 
+                    `<h2>${seriesTitle}</h2>
+                    <h4>Year of Release: ${year}</h4>`
+
+                    // Set image attribute on IMG tag for poster
+                    seriesPoster.setAttribute("src", poster);
+
+                    // Append name, year of release, and poster to displayDiv
+                    displayDiv.appendChild(seriesCard);
+                    displayDiv.appendChild(seriesPoster);
+                }
             }
         });
     }
