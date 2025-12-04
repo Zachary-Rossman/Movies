@@ -1,9 +1,3 @@
-// STEP 1 : Create functioning search bar that records user's typed input. Will have a drop down choice of what user wants to search for, a search bar, and a search button. Must record user's typed input and choice.
-    // Types will be movies or series
-// STEP 2: Use user's input to search to check against api. If data is available, retrieve data from the api to be used to display on screen.
-    // This will pull all data in the search results to be prepared to display
-// STEP 3: Loop through search results, and create elements on html to display results from the search. When user does another search, the results must clear themselves and show new ones only
-    // This will show results for user's search
 // STEP 4: To be able to show all results, create pager 
     // This will make the site more interactive for user
 
@@ -26,11 +20,15 @@ let handleFormSubmit = (Event) => {
 
     // modify link based on choice in box
     if (userInput.value === "") {
+        // Clear any previous responses or errors and display current search results
+        displayDiv.replaceChildren('');
+        
         // Display error message for user to type in something
         let searchError = document.createElement(`h2`);
         searchError.textContent = (`ERROR! Please enter a name of a movie or series to search for and retry`)
         searchError.classList.add(`text-red-950`);
         displayDiv.appendChild(searchError);
+        
         return;
     } else if (dropdownChoice.value === "movie") {
         // Fetch link with the parameter "type=movies"
@@ -43,14 +41,24 @@ let handleFormSubmit = (Event) => {
         .then(function (data) {
             // Checks for errors in search results
             if (data.Response === "False") {
+                // Clear any previous responses or errors and display current search results
+                displayDiv.replaceChildren('');
+
+                // Define error and display on page
                 let searchError = document.createElement(`h2`);
                 searchError.textContent = (`ERROR! Please type another name and try again`);
                 searchError.classList.add(`text-red-950`);
                 displayDiv.appendChild(searchError);
                 return;
             } else if (data.Response === "True") {
-                // Define search results
+                // Clear any previous responses or errors and display current search results
+                displayDiv.replaceChildren('');
+
+                // Define search results and total results to calculate pages
                 let searchResults = data.Search;
+                // THIS WILL BE USED TO CALCULATE PAGES! IF MORE THAN 10, MORE PAGES ARE NEEDED!
+                let totalResults = data.totalResults;
+                console.log(totalResults);
 
                 // Loop through results
                 for(let i=0; i < searchResults.length; i++) {
@@ -87,12 +95,19 @@ let handleFormSubmit = (Event) => {
         })
         .then(function (data) {
             if (data.Response === "False") {
+                // Clear any previous responses or errors and display current search results
+                displayDiv.replaceChildren('');
+
+                // Define error and display on page
                 let searchError = document.createElement(`h2`);
                 searchError.textContent = (`ERROR! Please type another name and try again`);
                 searchError.classList.add(`text-red-950`);
                 displayDiv.appendChild(searchError);
                 return;
             } else if (data.Response === "True") {
+                // Clear any previous responses or errors and display current search results
+                displayDiv.replaceChildren('');
+
                 // Define search results
                 let searchResults = data.Search;
 
