@@ -4,6 +4,11 @@
 //Global Variables
 let displayDiv = document.querySelector(`#display-div`);
 let dropdownChoice = document.querySelector(`#dropdown-choice`);
+let pager = document.querySelector(`#pager`);
+// // NOT USED YET
+// let pageChoice = document.querySelector(`#page-choice`);
+// // NOT USED YET
+// let pageDropdown = document.querySelector(`#page-dropdown`);
 let searchBtn = document.querySelector(`#search-button`)
 let searchForm = document.querySelector(`#search-form`);
 let userInput = document.querySelector(`#user-input`);
@@ -22,7 +27,7 @@ let handleFormSubmit = (Event) => {
     if (userInput.value === "") {
         // Clear any previous responses or errors and display current search results
         displayDiv.replaceChildren('');
-        
+
         // Display error message for user to type in something
         let searchError = document.createElement(`h2`);
         searchError.textContent = (`ERROR! Please enter a name of a movie or series to search for and retry`)
@@ -32,7 +37,7 @@ let handleFormSubmit = (Event) => {
         return;
     } else if (dropdownChoice.value === "movie") {
         // Fetch link with the parameter "type=movies"
-        let requestUrl = `http://www.omdbapi.com/?apikey=ce01743c&type=${dropdownChoice.value}&s=${userInput.value}`;
+        let requestUrl = `http://www.omdbapi.com/?apikey=ce01743c&type=${dropdownChoice.value}&s=${userInput.value}&page=1`;
         
         fetch(requestUrl)
         .then(function (response) {
@@ -56,9 +61,49 @@ let handleFormSubmit = (Event) => {
 
                 // Define search results and total results to calculate pages
                 let searchResults = data.Search;
+
                 // THIS WILL BE USED TO CALCULATE PAGES! IF MORE THAN 10, MORE PAGES ARE NEEDED!
-                let totalResults = data.totalResults;
-                console.log(totalResults);
+                // let totalResults = data.totalResults;
+                // console.log(totalResults);
+
+                // Define pager's HTML content
+                    // let pagerForm = document.createElement(`div`);
+                    // let pagerHTML = `
+                    //     <form id="page-dropdown">
+                    //     <label for="page">Page:</label>
+                    //     <select name="page" id="page-choice" class="border">
+                    //         <option value="1">1</option>
+                    //         <option value="2">2</option>
+                    //         <option value="3">3</option>
+                    //         <option value="4">4</option>
+                    //         <option value="5">5</option>
+                    //         <option value="6">6</option>
+                    //         <option value="7">7</option>
+                    //         <option value="8">8</option>
+                    //         <option value="9">9</option>
+                    //         <option value="10">10</option>
+                    //         <option value="11">11</option>
+                    //         <option value="12">12</option>
+                    //         <option value="13">13</option>
+                    //         <option value="14">14</option>
+                    //         <option value="15">15</option>
+                    //         <option value="16">16</option>
+                    //         <option value="17">17</option>
+                    //         <option value="18">18</option>
+                    //         <option value="19">19</option>
+                    //         <option value="20">20</option>
+                    //         <option value="21">21</option>
+                    //         <option value="22">22</option>
+                    //         <option value="23">23</option>
+                    //         <option value="24">24</option>
+                    //         <option value="25">25</option>
+                    //     </select>
+                    //     </form>`
+
+                    //     pagerForm.innerHTML = pagerHTML;
+
+                    //     // Append pager form
+                    //     pager.append(pagerForm);
 
                 // Loop through results
                 for(let i=0; i < searchResults.length; i++) {
@@ -83,6 +128,57 @@ let handleFormSubmit = (Event) => {
                     displayDiv.appendChild(movieCard);
                     displayDiv.appendChild(moviePoster);
                 }
+                // Define pager's HTML content
+                    let pagerForm = document.createElement("form");
+                    let pagerHTML = `
+                        <form action="" id="page-dropdown">
+                        <label for="page">Page:</label>
+                        <select name="page" id="page-choice" class="border">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                        </select>
+                        </form>`
+
+                        pagerForm.innerHTML = pagerHTML;
+
+                        // Append pager form
+                        pager.appendChild(pagerForm);
+
+                        // NOT USED YET
+                        let pageChoice = document.querySelector(`#page-choice`);
+                        
+                        // NOT USED YET
+                        let pageDropdown = document.querySelector(`#page-dropdown`);
+
+                        console.log(pageChoice.value);
+                        pageDropdown.addEventListener("click", pageClick);
+
+                        function pageClick (Event) {
+                            console.log(pageChoice.value);
+                        }
             }
         })
     } else if (dropdownChoice.value === "series") {
@@ -110,6 +206,8 @@ let handleFormSubmit = (Event) => {
 
                 // Define search results
                 let searchResults = data.Search;
+
+                // Define pager's HTML content
 
                 // Loop through results
                 for(let i=0; i < searchResults.length; i++) {
