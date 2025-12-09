@@ -69,9 +69,6 @@ let handleFormSubmit = (Event, isPagination = false) => {
         pagerValue = 1;
     }
 
-    // Test pager for increase
-    console.log("Current Page:", pagerValue);
-
     // Validate user input before doing API call
     if (userInput.value === "") {
         displayDiv.replaceChildren('');
