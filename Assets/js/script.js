@@ -1,6 +1,3 @@
-// STEP 4: To be able to show all results, create pager 
-// This will make the site more interactive for user
-
 // Global Variables
 let displayDiv = document.querySelector(`#display-div`);
 let dropdownChoice = document.querySelector(`#dropdown-choice`);
