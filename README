@@ -1,33 +1,45 @@
-# Movie Search
+# CineScout
 
-This application will utilize an API to allow users to search for movies and series that they love.
+This application utilizes the OMDb API to allow users to search for movies and series that they love.
 
 ## Description
 
-Users will be prompted with a home screen that will allow them to make a search. The user will have to select between movies or series, then type in the name of the movie or series they would like to find. If there is nothing typed or if nothing is found in the API in the search results, the user will be prompted with an error message. If results are found, the title of the movie or show will be displayed along with the year of release, and a poster of the movie or series. If user would like to see multiple pages of results, the user will be able to select search result pages because the OMDB API used only shows 10 results at a time. Any time the user submits the search form again, the page will be cleared of any previous results or errors, and will only display current information to the user based on their input.
+Users are presented with a home screen where they can make a search. The user selects between **movies** or **series**, then types the name of the movie or series they would like to find.
+
+- If the input is empty or no results are found, a **styled error message** will display.
+- If results are found, the title of the movie or series is displayed along with the **year of release** and a **poster**.
+- Users can navigate multiple pages of results using pagination buttons, as the OMDb API only shows **10 results per page**.
+- Every new search clears previous results or errors, showing only the current search results.
 
 ### Executing program
 
-- Open HTML page in browser
-- Select whether you would like to search for a movie or series from the dropdown menu
-- Type in the name of movie or series you would like to find
-- Results will show below form that was submitted
-- If no results are found or there is nothing typed, an error message will display instead of results
-- To search for something else, simply repeat the process and the page will clear every time a search is made
-
-```
+- Open `index.html` in a browser
+- Select whether you want to search for a **movie** or **series** from the dropdown menu
+- Type the name of the movie or series you want to find
+- Results will appear below the form as cards with title, year, and poster
+- If no results are found or nothing is typed, a **styled error message** will display
+- Navigate multiple pages of results using the **Previous / Next** buttons
+- Repeat the process to perform a new search; previous results are cleared automatically
 
 ## Author
 
 Zachary Rossman
 
-Github: @Zachary-Rossman
-Email: management.digitalprodigies@gmail.com
+- GitHub: [@Zachary-Rossman](https://github.com/Zachary-Rossman)
+- Email: management.digitalprodigies@gmail.com
 
 ## Version History
 
-* 0.1
-    * Initial And Current Release
+- 0.2
+
+  - Updated with CineScout branding
+  - Modern UI using TailwindCSS
+  - Styled result cards and pagination buttons
+  - Styled error messages
+  - Footer includes GitHub and OMDb API links
+
+- 0.1
+  - Initial release
 
 ## License
 
@@ -36,6 +48,6 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 ## Acknowledgments
 
 Inspiration, code snippets, etc.
-* [OMDB API](https://www.omdbapi.com/)
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-```
+
+- [OMDB API](https://www.omdbapi.com/)
+- [awesome-readme](https://github.com/matiassingers/awesome-readme)
