@@ -13,29 +13,44 @@ function init () {
     searchForm.addEventListener("submit", handleFormSubmit);
 }
 
-
-/* 
-    Update the pager UI
-    - Shows Next Page button always
-    - Shows Previous Page button ONLY when page > 1
-    - Updates displayed page number
-*/
+// Displays Next Page button always and dipslays Previous Page button ONLY when page > 
 function updatePagerUI() {
-    pager.replaceChildren(""); // clear previous pager
+    // clear previous pager
+    pager.replaceChildren("");
 
+    // Define pager
     let pagerDisplay = document.createElement("div");
 
-    // Create pager buttons dynamically based on current page
+    //Tailwind styling for pagination container
+    pagerDisplay.className = "flex items-center justify-center gap-6 py-6";
+
+    // HTML for pager
     pagerDisplay.innerHTML = `
         ${pagerValue > 1 
-            ? `<button class="border px-2" id="prev-btn">Previous Page</button>` 
+            ? `
+                <!-- Previous Page button -->
+                <button 
+                    class="border px-4 py-2 bg-white hover:bg-gray-200 rounded-lg shadow text-sm transition"
+                    id="prev-btn">
+                    ← Previous Page
+                </button>
+            ` 
             : ``}
 
-        <h4 class="inline-block px-4">Page: ${pagerValue}</h4>
+        <!-- Page Number -->
+        <h4 class="text-lg font-semibold text-gray-700">
+            Page: ${pagerValue}
+        </h4>
 
-        <button class="border px-2" id="next-btn">Next Page</button>
+        <!-- Next Page button -->
+        <button 
+            class="border px-4 py-2 bg-white hover:bg-gray-200 rounded-lg shadow text-sm transition"
+            id="next-btn">
+            Next Page →
+        </button>
     `;
 
+    // Display pager
     pager.appendChild(pagerDisplay);
 
     // Add event listeners only if the buttons exist
@@ -43,98 +58,124 @@ function updatePagerUI() {
     let nextBtn = document.querySelector("#next-btn");
 
     if (prevBtn) {
+        // Event listener for prevBtn
         prevBtn.addEventListener("click", () => {
-            pagerValue--; // Move to previous page
-            handleFormSubmit(new Event("submit"), true); // true = pagination click
+            // Reduce page by 1
+            pagerValue--;
+            handleFormSubmit(new Event("submit"), true);
         });
     }
 
+    // Add event listener for nextBtn
     nextBtn.addEventListener("click", () => {
-        pagerValue++; // Move to next page
-        handleFormSubmit(new Event("submit"), true); // true = pagination click
+        // Increase page by 1
+        pagerValue++;
+        handleFormSubmit(new Event("submit"), true);
     });
 }
 
+// Error output  
+function showError(message) {
+    // Clear page of any previous results
+    displayDiv.replaceChildren("");
+    pager.replaceChildren("");
 
-/*
-    handleFormSubmit()
-    - Runs every time the user performs a search OR clicks next/prev
-    - Pagination clicks bypass the page reset
-*/
+    // Define error on DOM
+    let errorBox = document.createElement("div");
+
+    // Error styling
+    errorBox.className =
+        "bg-red-100 border border-red-300 text-red-900 rounded-xl p-6 mx-auto mt-6 max-w-xl text-center shadow";
+        
+        // Define errorBox html content
+        errorBox.innerHTML = `
+        <h2 class="text-2xl font-bold mb-2">⚠️ Error</h2>
+        <p class="text-lg">${message}</p>
+    `;
+
+    // Append errorBox to DOM
+    displayDiv.appendChild(errorBox);
+}
+
+
+// Runs every time the user performs a search OR clicks next/prev
 let handleFormSubmit = (Event, isPagination = false) => {
+    // Prevents DOM from refreshing
     Event.preventDefault();
 
-    // NEW SEARCH always resets to page 1
+    // NEW SEARCH resets to page 1
     if (!isPagination) {
         pagerValue = 1;
     }
 
-    // Validate user input before doing API call
+    // Validate user input
     if (userInput.value === "") {
-        displayDiv.replaceChildren('');
-        pager.replaceChildren('');
-
-        let searchError = document.createElement(`h2`);
-        searchError.textContent = `ERROR! Please enter a name of a movie or series to search for and retry`;
-        searchError.classList.add(`text-red-950`);
-        displayDiv.appendChild(searchError);
-
+        // Display error
+        showError("Please enter a movie or series name and try again.");
+        // End function here if this error displays
         return;
     }
 
-    // Build URL dynamically depending on movie/series dropdown
+    // Build API request URL
     let requestUrl = `https://www.omdbapi.com/?apikey=ce01743c&type=${dropdownChoice.value}&s=${userInput.value}&page=${pagerValue}`;
 
     fetch(requestUrl)
     .then(response => response.json())
     .then(data => {
 
-        // Handle invalid searches
+        // Handle search errors
         if (data.Response === "False") {
-            displayDiv.replaceChildren('');
-            pager.replaceChildren('');
-
-            let searchError = document.createElement(`h2`);
-            searchError.textContent = `ERROR! Please type another name and try again`;
-            searchError.classList.add(`text-red-950`);
-            displayDiv.appendChild(searchError);
-
+            // Display error
+            showError("No results found. Please try a different search.");
+            // End function here if this error displays
             return;
         }
 
-        // Clear previous results on new search or page change
-        displayDiv.replaceChildren('');
+        // Clear previous results
+        displayDiv.replaceChildren("");
 
-        // OMDB search results (always max 10 per page)
+        // Grid styling for result display
+        displayDiv.className =
+            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6";
+
         let searchResults = data.Search;
 
-        // Loop through results to create display cards
+        // Loop through results to create UI cards
         for (let i = 0; i < searchResults.length; i++) {
             let title = searchResults[i].Title;
             let year = searchResults[i].Year;
             let poster = searchResults[i].Poster;
 
-            // Create DOM elements for card + poster
             let card = document.createElement(`div`);
             let img = document.createElement(`img`);
 
-            card.innerHTML = `
-                <h2>${title}</h2>
-                <h4>Year of Release: ${year}</h4>
+            // Card styling
+            card.className =
+                "bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center border border-gray-200 hover:shadow-xl transition";
+
+            // Class for poster
+            img.className =
+                "rounded-lg w-full h-80 object-contain bg-gray-100 mb-4";
+
+                //Define Card's HTML 
+                card.innerHTML = `
+                <h2 class="text-xl font-bold text-gray-800 mb-1">${title}</h2>
+                <h4 class="text-gray-600 mb-2">Year of Release: ${year}</h4>
             `;
 
+            // Set attribute of image
             img.setAttribute("src", poster);
 
-            // Append results to the DOM
+            // Build result card
+            card.appendChild(img);
             displayDiv.appendChild(card);
-            displayDiv.appendChild(img);
         }
 
-        // Update pagination buttons for current page
+        // Update paginator
         updatePagerUI();
     });
-}
+};
 
 
-// Function Calls & Event Listeners
+// Function Calls
 init();

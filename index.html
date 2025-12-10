@@ -1,38 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./Assets/CSS/normalize.css">
-    <!-- <link rel="stylesheet" href="./Assets/CSS/style.css"> -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Movies</title>    
-</head>
-<body id="body">
-    <!-- STYLING FOR TESTING ONLY FOR NOW! -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./Assets/CSS/normalize.css">
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <title>Movies</title>
+    </head>
 
-    <!-- Title Bar On site -->
-    <h1 class="bg-amber-500 font-serif">Movies</h1>
+    <body id="body" class="bg-gray-100 min-h-screen font-sans">
+        <!-- Header with Home Button -->
+         <header class="w-full bg-white shadow-md p-4 flex items-center gap-4">
+            <!-- Home Button -->
+             <button onclick="location.reload()" class="p-2 rounded-full hover:bg-gray-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" />
+                </svg>
+            </button>
+            <!-- Title + Tagline -->
+             <div class="flex flex-col">
+                <h1 class="text-2xl font-bold text-gray-800">CineScout</h1>
+                <p class="text-sm text-gray-500">Discover Your Next Movie or Series</p>
+            </div>
+        </header>
+        
+        <!-- Search Box Card -->     
+         <form id="search-form" class="bg-white shadow-lg rounded-xl max-w-xl mx-auto mt-10 p-6 flex flex-col gap-4">
+            <label for="type" class="text-lg font-medium">Search for a movie or a series</label>
+            <select name="type" id="dropdown-choice" class="border border-gray-300 rounded-lg p-2 bg-gray-50  hover:border-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+                <option value="movie">Movies</option>
+                <option value="series">Series</option>
+            </select>
+            <input id="user-input" type="search" placeholder="Type movie name here" class="border border-gray-300 rounded-lg p-2 bg-gray-50">
+            <button class="bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition">Search</button>
+        </form>
+        
+        <!-- Empty div for pager -->
+         <div id="pager" class="mt-6 flex justify-center"></div>
+         
+         <!-- Results Div -->
+          <div id="display-div" class="max-w-5xl mx-auto mt-8 grid gap-6"></div>
+          
+          <!-- Footer -->
+           <footer class="bg-gray-50 shadow-inner mt-12 p-6">
+            <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                <!-- Name / Credit -->
+                 <p class="text-gray-700 text-lg font-medium">Created by Zachary Rossman</p>
+                 <!-- Links -->
+                  <div class="flex items-center gap-4">
+                    <!-- GitHub Link -->
+                     <a href="https://github.com/Zachary-Rossman" target="_blank" class="group">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                        fill="currentColor" 
+                        viewBox="0 0 24 24" 
+                        class="w-8 h-8 text-gray-700 group-hover:text-gray-900 transition-transform transform hover:scale-110 active:scale-95">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.438 9.8 8.205 11.385.6.111.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.753-1.335-1.753-1.09-.745.082-.73.082-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.304.762-1.604-2.665-.3-5.466-1.335-5.466-5.933 0-1.31.468-2.38 1.236-3.22-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 013-.404c1.02.005 2.045.138 3 .404 2.29-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.12 3.176.77.84 1.236 1.91 1.236 3.22 0 4.61-2.804 5.63-5.475 5.922.43.37.813 1.096.813 2.21 0 1.594-.015 2.88-.015 3.27 0 .32.216.694.825.576C20.565 21.796 24 17.31 24 12c0-6.63-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <!-- OMDb API Logo Link -->
+                 <a href="https://www.omdbapi.com/" target="_blank" class="group relative">
+                    <!-- Globe / API icon -->
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                     class="w-8 h-8 text-blue-600 hover:text-blue-800 transition-transform transform hover:scale-110 active:scale-95">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 0v20M2 12h20"/>
+                    </svg>
+                    <!-- Optional tooltip -->
+                     <span class="absolute -top-6 left-1/2 -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">OMDb API</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+        
+        <script src="./Assets/js/script.js"></script>
 
-    <!-- Box/Card for user choices and inputs to search. Also has search button -->
-     <form id="search-form" class="flex flex-col">
-        <label for="type">Search for a movie or a series</label>
-        <select name="type" id="dropdown-choice" class="border">
-            <option value="movie">Movies</option>
-            <option value="series">Series</option>
-        </select>
-        <input id="user-input" class="border" text-black"  type="search" placeholder="Type movie name here">
-        <button class="bg-gray-400">Search</button>
-     </form>
-
-     <!-- Empty div for pager to be inserted once results show -->
-     <div id="pager"></div>
-     
-     <!-- Results will be appended to this Div -->
-     <div id="display-div"></div>
-
-    <!-- Footer for source of data and links to other pages as necessary -->
-
-    <script src="./Assets/js/script.js"></script>
 </body>
 </html>
